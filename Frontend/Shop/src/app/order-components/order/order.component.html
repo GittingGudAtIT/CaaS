@@ -1,0 +1,18 @@
+<a class="border list-group-item mb-2" [href]="parentPath + '/' + order.id" (click)="false">
+  <div class="row">
+    <div class="col-5 col-sm-3 col-md-2">Order-ID</div>
+    <div class="col-7 col-sm-9 col-md-10 text-truncate">{{ order.id }}</div>
+  </div>
+  <div class="row">
+    <div class="col-5 col-sm-3 col-md-2">Date</div>
+    <div class="col-7 col-sm-9 col-md-10">{{ datePipe.transform(order.dateTime, 'dd.MM.yyyy HH:mm') }}</div>
+  </div>
+  <div class="row">
+    <div class="col-5 col-sm-3 col-md-2">Customer</div>
+    <div class="col-7 col-sm-9 col-md-10">{{ order.customer.firstname }} {{order.customer.lastname}}</div>
+  </div>
+  <div class="row">
+    <div class="col-5 col-sm-3 col-md-2">Email</div>
+    <div class="col-7 col-sm-9 col-md-10 text-truncate">{{ order.customer.email}}</div>
+  </div>
+</a>

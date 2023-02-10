@@ -1,0 +1,60 @@
+<div class="border">
+  <div class="row border-bottom widget-header">
+    <div class="d-flex align-items-center">
+      <div class="col-5 col-sm-4 col-md-3">Discount-ID</div>
+      <div class="col-5 col-sm-6 col-md-8">{{ discount.id }}</div>
+      <div class="w-100"></div>
+      <a class="clickable hover-bright no-link-color rounded px-2 py-1 my-1"
+        [routerLink]="'/admin/discounts/' + discount.id"
+        [queryParams]="params">
+        <span class="material-symbols-outlined">
+          edit
+        </span>
+      </a>
+    </div>
+  </div>
+  <div class="row py-1">
+    <div class="col-5 col-sm-4 col-md-3">Validity Period</div>
+    <div class="col-7 col-sm-6 col-md-4 col-lg-3">
+      From: {{ datePipe.transform(discount.validFrom, 'dd.MM.yyyy HH:mm') }}
+    </div>
+    <div class="col-5 col-sm-4 d-block d-sm-block d-md-none"></div>
+    <div class="col-7 col-sm-6 col-md-5">
+      To: {{ datePipe.transform(discount.validTo, 'dd.MM.yyyy HH:mm') }}
+    </div>
+  </div>
+  <div class="row py-1">
+    <div class="col-5 col-sm-4 col-md-3">Description</div>
+    <div class="col-7 col-sm-8 col-md-9">{{ discount.description }}</div>
+  </div>
+  <div class="row py-1">
+    <div class="col-5 col-sm-4 col-md-3">
+      Offer Text
+    </div>
+    <div class="col-7 col-sm-8 col-md-9">
+      {{ doesMessage() }}
+    </div>
+  </div>
+  <div *ngIf="discount.freeProducts?.length" class="mb-0">
+    <div class="row widget-header border-top py-1" [ngClass]="{'border-bottom': giftsExpanded}">
+      <div class="d-flex justify-content-between align-items-center">
+        Gifts
+        <span class="material-symbols-outlined clickable hover-bright rounded px-2 py-2" (click)="giftsExpanded = !giftsExpanded">
+          {{ giftsExpanded ? 'expand_less' : 'expand_more' }}
+        </span>
+      </div>
+    </div>
+    <div *ngIf="discount.freeProducts.length > 0 && giftsExpanded" class="row">
+      <div *ngFor="let pa of discount.freeProducts let i = index" class="d-none d-sm-none d-md-block col-6"
+        [ngClass]="{'border-start': (i + 1) % 2 === 0
+        , 'border-bottom': i < discount.freeProducts.length - (discount.freeProducts.length % 2 == 0 ?  2 : 1)}">
+        <caas-freeprod-view [productAmount]="pa"></caas-freeprod-view>
+      </div>
+      <div *ngFor="let pa of discount.freeProducts let i = index" class="d-block d-sm-block d-md-none col-12"
+        [ngClass]="{'border-bottom': i < discount.freeProducts.length - (discount.freeProducts.length % 2 == 0 ?  2 : 1)}">
+        <caas-freeprod-view [productAmount]="pa"></caas-freeprod-view>
+      </div>
+      <div *ngIf="discount.freeProducts.length % 2 !== 0"  class="col-6 border-start"></div>
+    </div>
+  </div>
+</div>

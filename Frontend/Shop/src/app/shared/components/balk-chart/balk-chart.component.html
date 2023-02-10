@@ -1,0 +1,64 @@
+<div id="q-graph-div">
+  <table id="q-graph">
+    <thead></thead>
+    <tbody>
+      <tr class="qtr" id="q1">
+        <th scope="row">Sunday</th>
+        <td class="bar d-flex justify-content-center"
+          [ngStyle]="{'height': percentageValueOf(weekdayDist.sunday) * 250 + 'px'}">
+          <p>{{percentageValueOf(weekdayDist.sunday) > 0 ? fixed(weekdayDist.sunday) : ''}}</p>
+        </td>
+      </tr>
+      <tr class="qtr" id="q2">
+        <th scope="row">Monday</th>
+        <td class="bar d-flex justify-content-center"
+          [ngStyle]="{'height': percentageValueOf(weekdayDist.monday) * 250 + 'px'}">
+          <p>{{percentageValueOf(weekdayDist.monday) > 0 ? fixed(weekdayDist.monday) : ''}}</p>
+        </td>
+      </tr>
+      <tr class="qtr" id="q3">
+        <th scope="row">Tuesday</th>
+        <td class="bar d-flex justify-content-center"
+          [ngStyle]="{'height': percentageValueOf(weekdayDist.tuesday) * 250 + 'px'}">
+          <p>{{percentageValueOf(weekdayDist.tuesday) > 0 ? fixed(weekdayDist.tuesday) : ''}}</p>
+        </td>
+      </tr>
+        <tr class="qtr" id="q4">
+        <th scope="row">Wednesday</th>
+        <td class="bar d-flex justify-content-center"
+          [ngStyle]="{'height': percentageValueOf(weekdayDist.wednesday) * 250 + 'px'}">
+          <p>{{percentageValueOf(weekdayDist.wednesday) > 0 ? fixed(weekdayDist.wednesday) : ''}}</p>
+        </td>
+      </tr>
+      <tr class="qtr" id="q5">
+        <th scope="row">Thursday</th>
+        <td class="bar d-flex justify-content-center"
+          [ngStyle]="{'height': percentageValueOf(weekdayDist.thursday) * 250 + 'px'}">
+          <p>{{percentageValueOf(weekdayDist.thursday) > 0 ? fixed(weekdayDist.thursday) : ''}}</p>
+        </td>
+      </tr>
+      <tr class="qtr" id="q6">
+        <th scope="row">Friday</th>
+        <td class="bar d-flex justify-content-center"
+          [ngStyle]="{'height': percentageValueOf(weekdayDist.friday) * 250 + 'px'}">
+          <p>{{percentageValueOf(weekdayDist.friday) > 0 ? fixed(weekdayDist.friday) : ''}}</p>
+        </td>
+      </tr>
+      <tr class="qtr" id="q7">
+        <th scope="row">Saturday</th>
+        <td class="bar d-flex justify-content-center"
+          [ngStyle]="{'height': percentageValueOf(weekdayDist.saturday) * 250 + 'px'}">
+          <p>{{percentageValueOf(weekdayDist.saturday) > 0 ? fixed(weekdayDist.saturday) : ''}}</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div id="ticks">
+    <div class="tick"><p>{{fixed(lineValue() * 5)}}</p></div>
+    <div class="tick"><p>{{fixed(lineValue() * 4)}}</p></div>
+    <div class="tick"><p>{{fixed(lineValue() * 3)}}</p></div>
+    <div class="tick"><p>{{fixed(lineValue() * 2)}}</p></div>
+    <div class="tick"><p>{{fixed(lineValue())}}</p></div>
+    <div class="tick"><p>0</p></div>
+  </div>
+</div>

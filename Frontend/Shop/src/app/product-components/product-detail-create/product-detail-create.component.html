@@ -1,0 +1,80 @@
+
+<div class="d-flex flex-row-reverse mb-3">
+  <a class="btn btn-danger p-2" [routerLink]="returnUrl" [queryParams]="backParams()">
+    <div class="d-flex justify-content-center p-1">
+      <span class="material-symbols-outlined">
+        arrow_back_ios
+      </span>
+      Back
+    </div>
+  </a>
+</div>
+<form [formGroup]="productForm" (ngSubmit)="submit()">
+  <div class="border">
+    <div class="row widget-header border-bottom p-1 align-items-center">
+      <div class="col-5 col-sm-3 col-md-2">
+        Product-ID
+      </div>
+      <div class="col-7 col-sm-7 col-md-8">
+        new Product
+      </div>
+    </div>
+    <div class="row p-1 pt-3">
+      <div class="col-5 col-sm-3 col-md-2">
+        Name
+      </div>
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+        <input type="text" class="form-control"
+          name="name"
+          formControlName="name"
+        />
+      </div>
+    </div>
+    <div class="row p-1">
+      <div class="col-5 col-sm-3 col-md-2">
+        Price
+      </div>
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 px-2">
+        <caas-amount-control
+          name="price"
+          formControlName="price"
+          [min]="0"
+          [allowDecimal]="true"
+        ></caas-amount-control>
+      </div>
+    </div>
+    <div class="row p-1">
+      <div class="col-5 col-sm-3 col-md-2">
+        Description
+      </div>
+      <div class="col-12 col-sm-9 col-md-10">
+        <textarea formControlName="description" name="description" class="form-control"
+        ></textarea>
+      </div>
+    </div>
+    <div class="row p-1 pb-3 pt-2">
+      <div class="col-5 col-sm-3 col-md-2">
+        Download Link
+      </div>
+      <div class="col-12 col-sm-9 col-md-10">
+        <input type="text" class="form-control"
+          name="downloadLink"
+          formControlName="downloadLink"
+        />
+      </div>
+    </div>
+  </div>
+  <div class="d-flex flex-row-reverse mt-3">
+    <button type="submit" class="btn btn-primary p-2" [disabled]="!productForm.valid">
+      <div class="d-flex justify-content-center p-1">
+        <span class="material-symbols-outlined">
+          Done
+        </span>
+        <div class="m-1"></div>
+        Submit
+      </div>
+    </button>
+  </div>
+
+</form>
+

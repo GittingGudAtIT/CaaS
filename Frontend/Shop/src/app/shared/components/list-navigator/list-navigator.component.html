@@ -1,0 +1,35 @@
+<nav aria-label="Page navigation example">
+
+  <ul class="pagination">
+    <li class="page-item"
+      [ngClass]="{'disabled': pageIdx === 0, 'clickable': pageIdx > 0 }"
+      (click)="decIdx()"
+    ><a class="page-link">Previous</a></li>
+
+    <li *ngFor="let i of prefixes()"
+      class="page-item clickable"
+      (click)="setIdx(i)"
+    ><a class="page-link">{{ i + 1 }}</a></li>
+
+    <li *ngIf="pageIdx - 2 * maxPagesAround > 0"><span class="material-symbols-outlined mt-3">more_horiz</span></li>
+
+    <li *ngFor="let i of hotspot()"
+      class="page-item"
+      [ngClass]="{'clickable': pageIdx !== i, 'active': pageIdx === i}"
+      (click)="setIdx(i)"
+    ><a class="page-link">{{ i + 1 }}</a></li>
+
+    <li *ngIf="pageIdx + 2 * maxPagesAround < maxPageIdx"><span class="material-symbols-outlined mt-3">more_horiz</span></li>
+
+    <li *ngFor="let i of postfixes()"
+      class="page-item clickable"
+      (click)="setIdx(i)"
+    ><a class="page-link">{{ i + 1 }}</a></li>
+
+    <li class="page-item"
+      [ngClass]="{'disabled': pageIdx === maxPageIdx, 'clickable': pageIdx < maxPageIdx}"
+      (click)="incIdx()"
+    ><a class="page-link">Next</a></li>
+  </ul>
+
+</nav>

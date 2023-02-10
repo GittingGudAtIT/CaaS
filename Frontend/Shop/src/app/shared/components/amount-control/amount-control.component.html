@@ -1,0 +1,23 @@
+<div class="d-flex align-items-center p-1 ng-invalid">
+  <input class="number"
+    id="input" name="input" #input="ngModel"
+    [ngClass]="{'invalid': input.invalid && (input.dirty || input.touched)}"
+    class="form-control"
+    [min]="min"
+    autocomplete="off"
+    [ngModel]="amount"
+    (ngModelChange)="onValueChanged($event)"
+    (keydown)="onKeyDown($event)"
+    [disabled]="disabled"
+  >
+  <button type="button" name="minus" id="minus" class="btn btn-secondary px-2 mx-1" (click)="dec()" [disabled]="disabled || amount <= min">
+    <span class="material-symbols-outlined small">
+      remove
+    </span>
+  </button>
+  <button type="button" name="plus" id="plus" class="btn btn-secondary px-2" (click)="inc()" [disabled]="disabled || amount >= max">
+    <span class="material-symbols-outlined small">
+      add
+    </span>
+  </button>
+</div>

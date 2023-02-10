@@ -1,0 +1,68 @@
+<div *ngIf="shop">
+  <!-- general info -->
+  <div class="border p-2 mb-2">
+    <div class="d-flex justify-content-between">
+      <h2>{{ shop.name }}</h2>
+      <button type="button" class="btn btn-danger" (click)="logout()">
+        <div class="d-flex p-1">
+          <span class="material-symbols-outlined">
+            logout
+          </span>
+          Log Out
+        </div>
+      </button>
+    </div>
+    <h5>Caas Shop Id: {{ shop.id }}</h5>
+    <h5>Sales Current Month: {{ sales}}</h5>
+  </div>
+  <!-- edit name -->
+  <div class="border p-2 mb-2">
+    <div class="d-flex justify-content-between">
+      <h5>Edit Shop Name</h5>
+      <button type="button" class="btn btn-light" (click)="editNameClick()">
+        <span class="material-symbols-outlined">{{ editingName? 'close' : 'edit' }}</span>
+      </button>
+    </div>
+    <div *ngIf="editingName" class="mt-2">
+      <label>New Shop Name</label>
+      <div *ngIf="newShopName.invalid && (newShopName.dirty || newShopName.touched)">
+        <div *ngIf="newShopName.errors?.['minlength']" class="text-danger">
+          Shop name must be at least 3 characters long.
+        </div>
+      </div>
+      <input type="text" class="form-control mt-2" required minlength="3" maxlength="50" placeholder="Enter Shop Name" [(ngModel)]="newName" #newShopName="ngModel">
+      <div class="w-100 d-flex flex-row-reverse mt-2">
+        <button type="button" [disabled]="newShopName.errors" class="btn btn-primary" (click)="confirmNameClick()">Confirm</button>
+      </div>
+    </div>
+  </div>
+    <!-- edit app key -->
+    <div class="border p-2 mb-2 ">
+      <div class="d-flex justify-content-between">
+        <h5>Edit App Key</h5>
+        <button type="button" class="btn btn-light" (click)="editAppKeyClick()">
+          <span class="material-symbols-outlined">{{ editingAppKey? 'close' : 'edit' }}</span>
+        </button>
+      </div>
+      <div *ngIf="editingAppKey">
+        <label>New App Key</label>
+        <div *ngIf="newKey.invalid && (newKey.dirty || newKey.touched)">
+          <div *ngIf="newKey.errors?.['minlength']" class="text-danger">
+            App key must be at least 3 characters long.
+          </div>
+        </div>
+        <input type="password" class="form-control my-2" required minlength="3" maxlength="50" placeholder="Enter new App Key" [(ngModel)]="key" #newKey="ngModel" (keyup)="keyChange()">
+        <label>Confirm new App Key</label>
+        <div *ngIf="newKeyConfirmed.touched || newKeyConfirmed.dirty">
+          <div *ngIf="!keysEqual" class="text-danger">
+            Must equal app key.
+          </div>
+        </div>
+        <input type="password" class="form-control mt-2" required placeholder="Confirm new App Key" [(ngModel)]="keyConfirmed" #newKeyConfirmed="ngModel" (keyup)="keyChange()">
+        <div class="w-100 d-flex flex-row-reverse mt-2">
+          <button type="button" [disabled]="newKey.errors || !keysEqual" class="btn btn-primary" (click)="confirmAppKeyClick()">Confirm</button>
+        </div>
+      </div>
+    </div>
+</div>
+

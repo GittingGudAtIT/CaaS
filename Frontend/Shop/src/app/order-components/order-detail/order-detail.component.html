@@ -1,0 +1,106 @@
+<div class="d-flex flex-row-reverse mb-3">
+  <a class="btn btn-danger p-2" [routerLink]="returnUrl" [queryParams]="params">
+    <div class="d-flex justify-content-center p-1">
+      <span class="material-symbols-outlined">
+        arrow_back_ios
+      </span>
+      Back
+    </div>
+  </a>
+</div>
+<div *ngIf="!found">
+  Ther is no order with id '{{invalidId}}'
+</div>
+<div *ngIf="found">
+  <div class="border" *ngIf="order">
+    <div class="row widget-header border-bottom p-1">
+      <div class="col-5 col-sm-3 col-md-2">
+        Order-ID
+      </div>
+      <div class="col-7 col-sm-9 col-md-10">
+        {{order.id}}
+      </div>
+    </div>
+    <div class="row p-1">
+      <div class="col-5 col-sm-3 col-md-2">
+        Order Date
+      </div>
+      <div class="col-7 col-sm-9 col-md-10">
+        {{datePipe.transform(order.dateTime, 'dd.MM.yyyy HH:mm')}}
+      </div>
+    </div>
+    <div class="row p-1">
+      <div class="col-5 col-sm-3 col-md-2">
+        Off Sum
+      </div>
+      <div class="col-7 col-sm-9 col-md-10">
+        {{order.offSum}} mu.
+      </div>
+    </div>
+    <div *ngIf="order.customer">
+      <div class="row widget-header border-bottom border-top p-1">
+        <div class="col-12">
+          Customer
+        </div>
+      </div>
+      <div class="row p-1">
+        <div class="col-5 col-sm-3 col-md-2">
+          First Name
+        </div>
+        <div class="col-7 col-sm-9 col-md-10">
+          {{order.customer.firstname}}
+        </div>
+      </div>
+      <div class="row p-1">
+        <div class="col-5 col-sm-3 col-md-2">
+          Last Name
+        </div>
+        <div class="col-7 col-sm-9 col-md-10">
+          {{order.customer.lastname}}
+        </div>
+      </div>
+      <div class="row p-1">
+        <div class="col-5 col-sm-3 col-md-2">
+          Email
+        </div>
+        <div class="col-auto">
+          <a [href]="'mailto:' + order.customer.email">
+            {{order.customer.email}}
+          </a>
+        </div>
+      </div>
+      <div class="row p-1 border-top">
+        <div class="col-5 col-sm-3 col-md-2">
+          Total
+        </div>
+        <div class="col-auto">
+          {{order.total}} mu.
+        </div>
+      </div>
+      <div class="row p-1 border-top">
+        <div class="col-5 col-sm-3 col-md-2">
+          Download
+        </div>
+        <a class="col-auto">
+          {{order.downloadLink}}
+        </a>
+      </div>
+    </div>
+    <div *ngIf="order.entries">
+      <div class="row widget-header border-top p-1" [ngClass]="{'border-bottom': entriesExpanded}">
+        <div class="col-12 d-flex justify-content-between">
+          Entries
+          <span class="material-symbols-outlined clickable hover-bright rounded px-2" (click)="entriesExpanded = !entriesExpanded">
+            {{ entriesExpanded ? 'expand_less' : 'expand_more' }}
+          </span>
+        </div>
+      </div>
+      <div *ngIf="entriesExpanded" class="row py-1 px-0">
+        <div *ngFor="let entry of order.entries">
+          <caas-order-entry [entry]="entry" [orderId]="order.id"></caas-order-entry>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

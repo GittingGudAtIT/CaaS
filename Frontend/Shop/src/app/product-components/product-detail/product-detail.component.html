@@ -1,0 +1,98 @@
+<div class="d-flex flex-row-reverse mb-3">
+  <a class="btn btn-danger p-2" [routerLink]="returnUrl" [queryParams]="params">
+    <div class="d-flex justify-content-center p-1">
+      <span class="material-symbols-outlined">
+        arrow_back_ios
+      </span>
+      Back
+    </div>
+  </a>
+</div>
+<div class="border" *ngIf="product">
+  <div class="row widget-header border-bottom p-1">
+    <div class="col-5 col-sm-3 col-md-2">
+      Product-ID
+    </div>
+    <div class="col-7 col-sm-9 col-md-10">
+      {{product.id}}
+    </div>
+  </div>
+  <div *ngIf="product.imageNr > 0" class="row p-1">
+    <div>
+      <img [src]="'https://picsum.photos/id/' + product.imageNr +'/400/200'" alt="picture"/>
+    </div>
+
+  </div>
+  <div class="row p-1">
+    <div class="col-5 col-sm-3 col-md-2">
+      Name
+    </div>
+    <div class="col-7 col-sm-9 col-md-10">
+      {{product.name}}
+    </div>
+  </div>
+  <div class="row p-1">
+    <div class="col-5 col-sm-3 col-md-2">
+      Price
+    </div>
+    <div class="col-7 col-sm-9 col-md-10">
+      {{product.price.toFixed(2)}} mu.
+    </div>
+  </div>
+  <div class="row p-1">
+    <div class="col-5 col-sm-3 col-md-2">
+      Description
+    </div>
+    <div class="col-7 col-sm-9 col-md-10">
+      {{product.description}}
+    </div>
+  </div>
+  <div *ngIf="discounts?.length">
+    <div class="row widget-header border-bottom border-top mt-2 p-1">
+      <div class="col-12">Active Discounts</div>
+    </div>
+    <div *ngFor="let d of discounts" class="row border-bottom p-1">
+      <div class="col-5 col-sm-3 col-md-2">
+        {{d.tag}}
+      </div>
+      <div class="col-7 col-sm-9 col-md-10">
+        {{d.description}}
+      </div>
+    </div>
+  </div>
+  <div class="row widget-header border-bottom p-2 border-top my-2"></div>
+  <form
+    #addToCartForm="ngForm">
+    <div class="row d-flex align-items-center p-1">
+      <div class="col-12 col-sm-6 col-md-5 col-lg-4 col-xl-3 d-flex align-items-center">
+        <input class="number" class="form-control" required pattern="[1-9][0-9]*" min="1" name="count" autocomplete="off" [(ngModel)]="count" (keydown)="onKeyDown($event)">
+        <button class="btn btn-secondary px-2 mx-1" [disabled]="count === 1" (click)="dec()">
+          <span class="material-symbols-outlined small">
+            remove
+          </span>
+        </button>
+        <button class="btn btn-secondary px-2" (click)="inc()">
+          <span class="material-symbols-outlined small">
+            add
+          </span>
+        </button>
+        <div class="mx-2">pc.</div>
+      </div>
+      <div class="col-12 col-sm-6">
+        <button class="btn btn-primary my-2" (click)="submitForm()">
+          <div class="d-flex align-items-center">
+            <span class="material-symbols-outlined m-1">
+              add_shopping_cart
+            </span>
+            Add To Cart
+          </div>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+<div *ngIf="alreadyAdded">
+  <b class="row px-1 py-3">
+    {{ lastCnt > 1 ? lastCnt + ' Products have been added to your cart' : '1 Product has been added to your cart' }}
+  </b>
+</div>

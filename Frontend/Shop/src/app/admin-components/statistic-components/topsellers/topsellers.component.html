@@ -1,0 +1,67 @@
+<div class="border-start border-end border-bottom p-2 mb-3">
+  <div class="row align-items-center">
+    <div class="col-12 col-sm-5 col-md-4 col-lg-3">
+      <label>Start Time</label>
+      <input type="datetime-local" class="form-control" [ngModel]="dateFrom | date:'yyyy-MM-ddTHH:mm'" (ngModelChange)="startChange($event)">
+    </div>
+    <div class="col-12 d-block d-sm-none">
+      <label>End Time</label>
+      <input type="datetime-local" class="form-control" [ngModel]="dateTo | date:'yyyy-MM-ddTHH:mm'" (ngModelChange)="endChange($event)">
+    </div>
+    <div class="col-12 col-sm-7 col-md-4 col-lg-3">
+      <label>Max Results</label>
+      <caas-amount-control
+        [amount]="count"
+        (valueChangedEvent)="amountChanged($event)"
+        [min]="1"
+        [allowDecimal]="false"
+      ></caas-amount-control>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-sm-5 col-md-4 col-lg-3 d-none d-sm-block mb-1">
+      <label>End Time</label>
+      <input type="datetime-local" class="form-control" [ngModel]="dateTo | date:'yyyy-MM-ddTHH:mm'" (ngModelChange)="endChange($event)">
+    </div>
+    <div class="col-12 col-sm-7 col-md-8 col-lg-9 d-flex justify-content-end pt-3 my-1">
+      <button class="btn btn-outline-success my-sm-0 py-2" (click)="updateUrl(); update()">
+        <div class="d-flex">
+          <span class="material-symbols-outlined">
+            function
+          </span>
+          <div class="px-1"></div>
+          Evaluate
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div *ngIf="loading" class="d-flex justify-content-center my-5">
+  <div class="spinner-border" role="status">
+    <span class="sr-only"></span>
+  </div>
+</div>
+<div *ngIf="!loading">
+  <div *ngIf="!topsellers?.length">
+    Nothing found
+  </div>
+  <div *ngIf="topsellers.length > 0" class="row border">
+    <a *ngFor="let pa of topsellers let i = index"
+      class="d-none d-sm-none d-md-block col-6 clickable hover-gray-nor no-link-color blue-on-hover"
+      [routerLink]="'/admin/products/' + pa.product.id" [queryParams]="params()"
+      [ngClass]="{'border-start': (i + 1) % 2 === 0
+      , 'border-bottom': i < topsellers.length - (topsellers.length % 2 == 0 ?  2 : 1)}">
+      <div class="py-1">Nr.: {{i + 1}}</div>
+      <caas-freeprod-view [productAmount]="pa"></caas-freeprod-view>
+    </a>
+    <div *ngIf="topsellers.length % 2 !== 0" class="d-none d-sm-none d-md-block col-6 border-start"></div>
+    <a *ngFor="let pa of topsellers let i = index"
+      class="col-12 d-block d-sm-block d-md-none clickable hover-gray-nor no-link-color blue-on-hover"
+      [routerLink]="'/admin/products/' + pa.product.id" [queryParams]="params()"
+      [ngClass]="{'border-bottom': i < topsellers.length - 1}">
+      <div class="py-1">Nr.: {{i + 1}}</div>
+      <caas-freeprod-view [productAmount]="pa"></caas-freeprod-view>
+    </a>
+  </div>
+</div>
+

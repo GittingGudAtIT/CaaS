@@ -1,0 +1,35 @@
+<div *ngIf="pending">
+  <div class="d-flex justify-content-center my-5">Redirecting</div>
+  <div class="d-flex justify-content-center my-5">
+    <div class="spinner-border" role="status">
+      <span class="sr-only"></span>
+    </div>
+  </div>
+</div>
+<div *ngIf="!pending">
+  <form  _lpchecked="1" #loginForm="ngForm" (ngSubmit)="submitForm()">
+    <div class="border p-2 mb-2">
+      <h2>
+        Log-in to administrate your shop
+      </h2>
+      <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+        <div>
+          <label class="mb-2">App Key</label>
+          <div class="mb-2">
+              <input [(ngModel)]="appKey" required type="password" class="form-control" name="appKey" placeholder="Enter App Key" autocomplete="off">
+          </div>
+          <div *ngIf="appKeyWrong">
+            <label class="text-danger">
+              Invalid App Key.
+            </label>
+          </div>
+          <div class="d-flex flex-row-reverse">
+            <div class="col-auto col-md-2 col-lg-2 col-xl-2">
+              <button [disabled]="loginForm.invalid" class="btn btn-primary w-100">Login</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

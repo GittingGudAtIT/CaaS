@@ -1,0 +1,54 @@
+<div *ngIf="entry?.product && entry?.rowNumber" class="row my-1 border">
+  <div class="row p-1 widget-header" [ngClass]="{'border-bottom': expanded}">
+    <div class="col-7 col-sm-5 col-md-4">
+      Row Nr. {{entry!.rowNumber}}
+    </div>
+    <div class="col-5 col-sm-7 col-md-8">
+      <div class="d-flex w-100 h-100 flex-row-reverse">
+        <span class="material-symbols-outlined clickable hover-bright rounded px-2" (click)="expanded = !expanded">
+          {{ expanded ? 'expand_less' : 'expand_more' }}
+        </span>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="expanded">
+    <a [routerLink]="'/products/' + entry!.product.originalId" [queryParams]="{'returnUrl': returnUrl}" class="list-group-item">
+      <div class="row p-1">
+        <div class="col-5 col-sm-3 col-md-2">
+          Original ID
+        </div>
+        <div class="col-7 col-sm-9 col-md-10">
+          {{entry!.product.originalId}}
+        </div>
+      </div>
+    </a>
+
+    <div class="row p-1">
+      <div class="col-5 col-sm-3 col-md-2">
+        Name
+      </div>
+      <div class="col-7 col-sm-9 col-md-10">
+        {{entry!.product.name}}
+      </div>
+    </div>
+
+    <div class="row p-1">
+      <div class="col-5 col-sm-3 col-md-2">
+        Price
+      </div>
+      <div class="col-7 col-sm-9 col-md-10">
+        {{entry!.product.price.toFixed(2)}} mu.
+      </div>
+    </div>
+
+    <div class="row p-1">
+      <div class="col-5 col-sm-3 col-md-2">
+        Count
+      </div>
+      <div class="col-7 col-sm-9 col-md-10">
+        {{entry!.count}} pc.
+      </div>
+    </div>
+
+  </div>
+</div>

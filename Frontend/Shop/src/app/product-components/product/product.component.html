@@ -1,0 +1,20 @@
+<div class="border list-group-item mb-2 d-flex align-items-center">
+  <div>
+    <img [src]="'https://picsum.photos/id/' + product.imageNr +'/100/100'" alt="picture"/>
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-5 col-sm-4 col-md-3 col-lg-2">Name</div>
+      <div class="col-7 col-sm-8 col-md-9 col-lg-10">{{ product.name }}</div>
+    </div>
+    <div class="row">
+      <div class="col-5 col-sm-4 col-md-3 col-lg-2">Price</div>
+      <div class="col-7 col-sm-8 col-md-9 col-lg-10">{{ product.price.toFixed(2) }} mu.</div>
+    </div>
+    <div *ngIf="discounts.length > 0">
+      <div class="badge-overlay">
+        <span class="top-right badge red">Sale</span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,49 @@
+<div class="border-start border-end border-bottom p-2 mb-3">
+  <div class="row">
+    <div class="col-12 col-sm-5 col-md-4 col-lg-3">
+      <label>Start Time</label>
+      <input type="datetime-local" class="form-control" [ngModel]="dateFrom | date:'yyyy-MM-ddTHH:mm'" (ngModelChange)="startChange($event)">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-sm-5 col-md-4 col-lg-3">
+      <label>End Time</label>
+      <input type="datetime-local" class="form-control" [ngModel]="dateTo | date:'yyyy-MM-ddTHH:mm'" (ngModelChange)="endChange($event)">
+    </div>
+    <div class="col-12 col-sm-7 col-md-8 col-lg-9 d-flex justify-content-end pt-3 my-1">
+      <button class="btn btn-outline-success my-sm-0 py-2" (click)="updateUrl(); update()">
+        <div class="d-flex">
+          <span class="material-symbols-outlined">
+            function
+          </span>
+          <div class="px-1"></div>
+          Evaluate
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div *ngIf="loading" class="d-flex justify-content-center my-5">
+  <div class="spinner-border" role="status">
+    <span class="sr-only"></span>
+  </div>
+</div>
+<div *ngIf="!loading">
+  <div class="border mb-3 py-2">
+    <h5 class="d-flex justify-content-center">
+      Total Amount:
+    </h5>
+    <div class="row">
+      <div class="d-flex justify-content-center">
+        <div class="px-3"></div>
+        <h5>{{value}}</h5>
+        <div class="px-2"></div>
+        <div>mu.</div>
+      </div>
+    </div>
+  </div>
+  <h5>Total sales per weekday</h5>
+  <div class="w-100 border pb-3">
+    <caas-balk-chart [weekdayDist]="weekdayDistributionSales" ></caas-balk-chart>
+  </div>
+</div>

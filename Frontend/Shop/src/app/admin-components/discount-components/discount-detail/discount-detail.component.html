@@ -1,0 +1,261 @@
+<div class="d-flex flex-row-reverse mb-3">
+  <a class="btn btn-danger p-2" routerLink="/admin/discounts" [queryParams]="params">
+    <div class="d-flex justify-content-center p-1">
+      <span class="material-symbols-outlined">
+        arrow_back_ios
+      </span>
+      Back
+    </div>
+  </a>
+</div>
+<!--Config-->
+<form [formGroup]="discountForm" (ngSubmit)="submitForm()">
+  <div class="border-start border-top border-end">
+    <div class="row py-1 border-bottom widget-header mb-1 align-items-center">
+      <div class="col-5 col-sm-4 col-md-3">Discount-ID</div>
+      <div class="col-5 col-sm-8 col-md-7">{{ discount.id }}</div>
+      <div *ngIf="!createNewDiscount || created" class="col-12 col-sm-12 col-md-2 d-flex justify-content-end">
+        <button type="button" class="btn btn-danger" (click)="deleteClick()">
+          <div class="d-flex align-items-center">
+            <span class="material-symbols-outlined">
+              delete
+            </span>
+            <div class="px-1"></div>
+            Delete
+          </div>
+        </button>
+      </div>
+    </div>
+    <div *ngIf="errors && errors['date']" class="row py-1">
+      <div class="col-5 col-sm-4 col-md-3"></div>
+      <div class="col-5 col-sm-6 col-md-9">
+        <div *ngFor="let err of errors['date']" class="text-danger">
+          {{ err }}
+        </div>
+      </div>
+    </div>
+    <div class="row align-items-center">
+      <div class="col-5 col-sm-4 col-md-3">Active from</div>
+      <div class="col-7 col-sm-5 col-md-3 col-lg-3 py-1">
+        <input type="datetime-local"
+        class="form-control"
+        formControlName="validFrom"
+        name="validFrom"
+      >
+      </div>
+      <div class="col-5 col-sm-4 col-md-2">Active until</div>
+      <div class="col-7 col-sm-5 col-md-4 col-lg-4 py-1">
+        <input type="datetime-local"
+        class="form-control"
+        formControlName="validTo"
+        name="validTo"
+        >
+      </div>
+    </div>
+    <div class="row py-1">
+      <div class="col-5 col-sm-4 col-md-3">Description</div>
+      <div class="col-7 col-sm-8 col-md-9">
+        <textarea formControlName="description" name="description" class="form-control"
+        ></textarea>
+      </div>
+    </div>
+    <div class="row py-1">
+      <div class="col-5 col-sm-4 col-md-3">Tag</div>
+      <div class="col-7 col-sm-8 col-md-9">
+        <input type="text" formControlName="tag" name="tag" class="form-control"/>
+      </div>
+    </div>
+    <div class="row align-items-center">
+      <div class="col-5 col-sm-4 col-md-3">Minimum Type</div>
+      <div class="col-7 col-sm-5 col-md-3 col-lg-3 py-1">
+        <select
+        class="form-select"
+        formControlName="minType"
+        name="minType"
+        (change)="minTypeChanged()">
+          <option *ngFor="let minType of minTypes" [ngValue]="minType">{{minTypeMapping[minType]}}</option>
+        </select>
+      </div>
+      <div class="col-5 col-sm-4 col-md-2">Min Value</div>
+      <div class="col-7 col-sm-5 col-md-4 col-lg-4 py-1 px-2">
+        <caas-amount-control
+          name="minValue"
+          formControlName="minValue"
+          [min]="minValueMin()"
+          [allowDecimal]="minValueAllowDecimal()"
+        ></caas-amount-control>
+      </div>
+    </div>
+    <div *ngIf="errors && errors['offValue']" class="row py-1">
+      <div class="col-5 col-sm-4 col-md-3"></div>
+      <div class="col-5 col-sm-6 col-md-9">
+        <div *ngFor="let err of errors['offValue']" class="text-danger">
+          {{ err }}
+        </div>
+      </div>
+    </div>
+    <div class="row align-items-center">
+      <div class="col-5 col-sm-4 col-md-3">Off Value Type</div>
+      <div class="col-7 col-sm-5 col-md-3 col-lg-3 py-1">
+        <select class="form-select"
+          formControlName="offType"
+          name="offType"
+          (change)="offTypeChanged()">
+          <option *ngFor="let offType of offTypes" [ngValue]="offType"
+          [disabled]="offType === 3 && discountForm.value.minType === 2"
+          >{{offTypeMapping[offType]}}</option>
+        </select>
+      </div>
+      <div class="col-5 col-sm-4 col-md-2">Off Value</div>
+      <div class="col-7 col-sm-5 col-md-4 col-lg-4 py-1 px-2">
+        <caas-amount-control
+          name="offValue"
+          formControlName="offValue"
+          [min]="offValueMin()"
+          [max]="offValueMax()"
+          [allowDecimal]="offValueAllowDecimal()"
+          [notenabled]="offIsNone()"
+        ></caas-amount-control>
+      </div>
+    </div>
+    <div class="row py-1">
+      <div class="col-5 col-sm-4 col-md-3">
+        Generated Offer
+      </div>
+      <div class="col-7 col-sm-8 col-md-9">
+        {{ doesMessage() }}
+      </div>
+    </div>
+    <!--Gifts-->
+    <div>
+      <div *ngIf="errors && errors['freeProds']" class="row py-1">
+        <div class="col-5 col-sm-4 col-md-3"></div>
+        <div class="col-5 col-sm-6 col-md-9">
+          <div *ngFor="let err of errors['freeProds']" class="text-danger">
+            {{ err }}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="widget-header border-top py-1 d-flex align-items-center justify-content-between"
+          [ngClass]="{'border-bottom': discount.freeProducts.length > 0}">
+          Gifts
+          <div class="d-flex">
+            <button type="button" class="btn btn-danger" (click)="clearGifts()"
+            [disabled]="!discount.freeProducts.length">
+              <div class="d-flex align-items-center">
+                <span class="material-symbols-outlined d-flex">
+                  clear
+                </span>
+                <div class="px-1"></div>
+                Clear
+              </div>
+            </button>
+            <div class="mx-2"></div>
+            <button type="button"  class="btn btn-secondary" (click)="giftModalOpen = true">
+              <span class="material-symbols-outlined d-flex">
+                add
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="discount.freeProducts.length > 0" class="row">
+        <div *ngFor="let pa of discount.freeProducts let i = index" class="d-none d-sm-none d-md-block col-6"
+          [ngClass]="{'border-start': (i + 1) % 2 === 0
+          , 'border-bottom': i < discount.freeProducts.length - (discount.freeProducts.length % 2 == 0 ?  2 : 1)}">
+          <caas-freeprod-edit [productAmount]="pa" (deleteClickEvent)="giftDelete(pa)" ></caas-freeprod-edit>
+        </div>
+        <div *ngIf="discount.freeProducts.length % 2 !== 0"  class="d-none d-sm-none d-md-block col-6 border-start"></div>
+        <div *ngFor="let pa of discount.freeProducts let i = index" class="col-12 d-block d-sm-block d-md-none"
+          [ngClass]="{'border-bottom': i < discount.freeProducts.length - (discount.freeProducts.length % 2 == 0 ?  2 : 1)}">
+        <caas-freeprod-edit [productAmount]="pa" (deleteClickEvent)="giftDelete(pa)" ></caas-freeprod-edit>
+      </div>
+      </div>
+    </div>
+    <!--Products-->
+    <div>
+      <div class="widget-header border-top border-bottom py-1">
+        <div class="row align-items-center">
+          <div class="col-5 col-sm-4 col-md-3">
+            Affected Products
+          </div>
+          <div class="col-7 col-sm-4 col-md-5">
+            <div class="d-flex align-items-center">
+              Enabled for all Products
+              <div class="px-2"></div>
+              <div class="form-check form-switch my-2">
+                <input formControlName="is4AllProducts"
+                name="formControlName"
+                class="form-check-input clickable"
+                type="checkbox"
+                id="flexSwitchCheckChecked"
+                [attr.disabled]="(discountForm.value.minType === 2)? true: null">
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm-4 col-md-4">
+            <div class="d-flex justify-content-end">
+              <button type="button" class="btn btn-danger" (click)="clearProducts()"
+              [disabled]="discountForm.value.is4AllProducts === true || discountForm.value.minType === 2 || discount.products.length < 1">
+                <div class="d-flex align-items-center">
+                  <span class="material-symbols-outlined d-flex">
+                    clear
+                  </span>
+                  <div class="px-1"></div>
+                  Clear
+                </div>
+              </button>
+              <div class="px-2"></div>
+              <button type="button"  class="btn btn-secondary"
+              (click)="affectedModalOpen = true"
+              [disabled]="discountForm.value.is4AllProducts || discountForm.value.minType === 2">
+                <span class="material-symbols-outlined d-flex">
+                  add
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!discountForm.value.is4AllProducts && products.length > 0 && discountForm.value.minType !== 2">
+        <div *ngFor="let p of products" class="row border-bottom">
+          <caas-product-simple-delete [id]="p.id" [name]="p.name"
+          (deleteClickEvent)="affectedDeleteClick($event)"
+          ></caas-product-simple-delete>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Submit-->
+  <div>
+    <b class="d-flex flex-row-reverse mt-4" *ngIf="submited">{{ wasNew ? 'Successfully created discount!' : ' Successfully applied changes!'}}</b>
+    <div class="d-flex flex-row-reverse mt-3">
+      <button type="submit" class="btn btn-primary p-2" [disabled]="discountForm.invalid || errors || submited">
+        <div class="d-flex justify-content-center p-1">
+          <span class="material-symbols-outlined">
+            Done
+          </span>
+          <div class="m-1"></div>
+          Submit
+        </div>
+      </button>
+    </div>
+  </div>
+</form>
+
+
+<!--Modals-->
+<caas-product-select-modal
+  [updateContentEventCall]="productModalUpdateEvent"
+  [open]="affectedModalOpen" title="Select Affected Products"
+  [excludedProductIds]="excludedProducts"
+  (onCloseEvent)="affectedModalClosed($event)"
+></caas-product-select-modal>
+
+<caas-product-select-modal
+  [updateContentEventCall]="giftModalUpdateEvent"
+  [open]="giftModalOpen" title="Select Gifts"
+  [excludedProductIds]="excludedGifts"
+  (onCloseEvent)="giftModalClosed($event)"
+></caas-product-select-modal>

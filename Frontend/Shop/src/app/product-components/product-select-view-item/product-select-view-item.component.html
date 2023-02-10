@@ -1,0 +1,21 @@
+<div class="d-flex align-items-center clickable hover-gray-nor" (click)="checkedChanged()">
+  <div class="col-8 col-sm-8 col-md-6">
+    {{productSelect.product.id}}
+  </div>
+  <div class="col-3 col-sm-3 col-md-5">
+    {{productSelect.product.name}}
+  </div>
+  <div class="col-1 pt-2">
+    <span *ngIf="!productSelect.checked" class="material-symbols-outlined">
+      check_box_outline_blank
+    </span>
+    <span *ngIf="productSelect.checked" class="material-symbols-outlined">
+      check_box
+    </span>
+  </div>
+</div>
+
+
+
+
+

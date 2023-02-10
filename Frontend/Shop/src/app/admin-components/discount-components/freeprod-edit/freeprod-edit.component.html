@@ -1,0 +1,28 @@
+
+<div *ngIf="productAmount.product">
+  <div class="row py-1">
+    <div class="col-5 col-sm-4 col-md-3">ID</div>
+    <div class="col-7 col-sm-8 col-md-9">{{ productAmount.product.id }}</div>
+  </div>
+  <div class="row py-1">
+    <div class="col-5 col-sm-4 col-md-3">Name</div>
+    <div class="col-7 col-sm-8 col-md-9">{{ productAmount.product.name }}</div>
+  </div>
+  <div class="row py-1 align-items-center">
+    <div class="col-12 col-sm-4 col-md-3">Amount</div>
+    <div class="col">
+      <div class="d-flex align-items-center">
+        <caas-amount-control [min]="1" [amount]="productAmount.count" (valueChangedEvent)="amountChanged($event)">
+        </caas-amount-control>
+        <button class="btn btn-danger px-1 mx-2" (click)="deleteClick()">
+          <div class="d-flex justify-content-center align-items-center">
+            <span class="material-symbols-outlined">
+              delete
+            </span>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+

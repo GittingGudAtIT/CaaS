@@ -1,0 +1,187 @@
+
+<div class="mb-5">
+  <label>View old Orders</label>
+  <div class="d-flex">
+    <input class="form-control mr-sm-2" type="search" placeholder="Order ID" aria-label="Search"
+      [(ngModel)]="oldOrderId">
+    <a class="btn btn-primary my-sm-0"
+      [routerLink]="'/order/' + oldOrderId"
+      [queryParams]="{'returnUrl': '/cart'}"
+      [ngClass]="{'disabled': oldOrderId.length < 36}"
+      >
+      <div class="d-flex p-1">
+        <span class="material-symbols-outlined">
+          pageview
+        </span>
+        <div class="px-1"></div>
+        View
+      </div>
+    </a>
+  </div>
+</div>
+
+<div *ngIf="(!cart || cart.entries.length < 1) && !loading" class="d-flex justify-content-center my-5">
+  There are no products in your cart.
+</div>
+<div *ngIf="loading" class="d-flex justify-content-center my-5">
+  <div class="spinner-border" role="status">
+    <span class="sr-only"></span>
+  </div>
+</div>
+<div *ngIf="cart && cart.entries.length > 0">
+  <div class="border">
+    <div class="row widget-header border-bottom p-1">
+      <div class="col-12">
+        Products in Cart
+      </div>
+    </div>
+    <div class="row p-2">
+
+    </div>
+    <div *ngFor="let entry of cart.entries">
+      <div class="border-top mb-3">
+        <div class="row widget-header border-bottom">
+          <a class="list-group-item w-100 h-100 py-1 px-3 d-flex" [routerLink]="'/products/' + entry.product.id" [queryParams]="{ returnUrl: '/cart' }">
+            <div class="col-6 col-sm-5 col-md-4 col-lg-3">
+              Product
+            </div>
+            <div class="col-6 col-sm-7 col-md-8 col-lg-9 px-2">
+              {{entry.product.id}}
+            </div>
+          </a>
+        </div>
+        <div class="d-flex justify-content-end">
+          <button class="btn btn-danger px-2 mx-3 py-1 my-2 d-block d-sm-none" (click)="remove(entry)">
+            <div class="d-flex justify-content-center">
+              <span class="material-symbols-outlined mx-1">
+                delete
+              </span>
+              Remove
+            </div>
+          </button>
+        </div>
+        <div class="row px-1 align-items-center">
+          <div class="col-6 col-sm-5 col-md-4 col-lg-3">
+            Name
+          </div>
+          <div class="col-6 col-sm-4 col-md-6 col-lg-7">
+            {{entry.product.name}}
+          </div>
+          <div class="col-sm-3 col-md-2 d-flex justify-content-end">
+            <button class="btn btn-danger px-2 py-1 my-1 d-none d-sm-block" (click)="remove(entry)">
+              <div class="d-flex justify-content-center">
+                <span class="material-symbols-outlined mx-1">
+                  delete
+                </span>
+                Remove
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <div class="row p-1">
+          <div class="col-6 col-sm-5 col-md-4 col-lg-3">
+            Price per Piece
+          </div>
+          <div class="col-6 col-sm-7 col-md-8 col-lg-9">
+            {{entry.product.price.toFixed(2)}} mu.
+          </div>
+        </div>
+
+        <div class="row p-1 d-flex align-items-center">
+          <div class="col-6 col-sm-5 col-md-4 col-lg-3">
+            Amount
+          </div>
+          <div class="col-6 col-sm-5 col-md-4 px-1">
+            <caas-amount-control
+              [amount]="entry.count!"
+              (valueChangedEvent)="valueChanged($event, entry)"
+            ></caas-amount-control>
+          </div>
+        </div>
+
+        <div class="row p-1 border-top border-bottom">
+          <div class="col-6 col-sm-5 col-md-4 col-lg-3">
+            Raw Sum
+          </div>
+          <div class="col-6 col-sm-7 col-md-8 col-lg-9">
+            {{(entry.count * entry.product.price).toFixed(2)}} mu.
+          </div>
+        </div>
+        <div  *ngIf="discountsForEntry(entry) let dis" class="mx-3 my-3 border-start border-end">
+          <div class="row widget-header border-bottom border-top mt-2 p-1">
+            <div class="col-12">Active Discounts</div>
+          </div>
+          <div *ngFor="let d of dis" class="row border-bottom p-1">
+            <div class="col-6 col-sm-5 col-md-4 col-lg-3">
+              Tag
+            </div>
+            <div class="col-6 col-sm-7 col-md-8 col-lg-9">
+              {{d.discount.tag}}
+            </div>
+            <div class="col-6 col-sm-5 col-md-4 col-lg-3">
+              Description
+            </div>
+            <div class="col-6 col-sm-7 col-md-8 col-lg-9">
+              {{d.discount.description}}
+            </div>
+            <div class="col-6 col-sm-5 col-md-4 col-lg-3">
+              Applies
+            </div>
+            <div class="col-6 col-sm-7 col-md-8 col-lg-9">
+              {{d.count + (d.count > 1 ? ' times' : ' time')}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="discountsForCart() let dis">
+      <div class="row widget-header border-bottom border-top mt-4 px-1 py-1">
+        <div class="col-12">Active Value Discounts</div>
+      </div>
+      <div *ngFor="let d of dis" class="row border-bottom p-1">
+        <div class="col-6 col-sm-5 col-md-4 col-lg-3">
+          Tag
+        </div>
+        <div class="col-6 col-sm-7 col-md-8 col-lg-9">
+          {{d.discount.tag}}
+        </div>
+        <div class="col-6 col-sm-5 col-md-4 col-lg-3">
+          Description
+        </div>
+        <div class="col-6 col-sm-7 col-md-8 col-lg-9">
+          {{d.discount.description}}
+        </div>
+        <div class="col-6 col-sm-5 col-md-4 col-lg-3">
+          Applies
+        </div>
+        <div class="col-6 col-sm-7 col-md-8 col-lg-9">
+          {{d.count + (d.count > 1 ? ' times' : ' time')}}
+        </div>
+      </div>
+    </div>
+    <div class="row p-1 mt-3 widget-header border-top">
+      <div class="col-12">
+        <b>Total</b>
+      </div>
+    </div>
+    <div class="row p-1 border-top">
+      <div class="col-6 col-sm-5 col-md-4 col-lg-3"></div>
+      <div class="col-6 col-sm-7 col-md-8 col-lg-9">
+        <b>{{ total.toFixed(2) }} mu.</b>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex flex-row-reverse mt-3">
+    <a type="submit" class="btn btn-primary p-2" routerLink="/checkout" >
+      <div class="d-flex justify-content-center p-1">
+        <span class="material-symbols-outlined">
+          shopping_cart_checkout
+        </span>
+        <div class="m-1"></div>
+        Checkout
+      </div>
+    </a>
+  </div>
+</div>
+

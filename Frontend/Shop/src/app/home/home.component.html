@@ -1,0 +1,42 @@
+<div *ngIf="loading" class="d-flex justify-content-center my-5">
+  <div class="spinner-border" role="status">
+    <span class="sr-only"></span>
+  </div>
+</div>
+<div *ngIf="!loading">
+  <div class="d-flex justify-content-center">
+    <h3>Welcome to {{shopName}}</h3>
+  </div>
+  <div class="border py-2">
+    <div *ngIf="topSellers?.length" class="row">
+      <h5>
+        Topsellers
+      </h5>
+    </div>
+    <div *ngIf="topSellers?.length" class="row pt-2">
+      <a *ngFor="let pds of productsWithDiscounts()"
+        class="no-link-color blue-on-hover col-12 col-sm-12 col-md-6"
+        [routerLink]="'/products/' + pds.product.id"
+        [queryParams]="{ 'returnUrl': '/home' }"
+        >
+        <caas-product
+          [product]="pds.product"
+          [discounts]="pds.discounts"
+        ></caas-product>
+      </a>
+    </div>
+    <div *ngIf="activeDiscounts?.length" class="row mt-3">
+      <h5>
+        Active Discounts
+      </h5>
+    </div>
+    <div *ngIf="activeDiscounts?.length" class="row pt-2">
+      <div *ngFor="let d of activeDiscounts"
+        class="col-12 col-sm-12 col-md-6">
+        <caas-discount-user-view [discount]="d"></caas-discount-user-view>
+      </div>
+    </div>
+  </div>
+</div>
+
+

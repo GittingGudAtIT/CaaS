@@ -1,0 +1,77 @@
+
+#q-graph-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#q-graph {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  font-size: 11px;
+}
+
+#q-graph tr, #q-graph th, #q-graph td {
+  position: absolute;
+  bottom: 0;
+  width: 10%;
+  z-index: 2;
+}
+
+#q-graph thead tr {
+  left: 100%;
+  top: 50%;
+  bottom: auto;
+  margin: -2.5em 0 0 5em;
+}
+
+#q-graph tbody tr {
+  height: 300px;
+}
+#q-graph #q1 {left: 10.86%;}
+#q-graph #q2 {left: 23.71%;}
+#q-graph #q3 {left: 36.57%;}
+#q-graph #q4 {left: 49.43%;}
+#q-graph #q5 {left: 62.29%;}
+#q-graph #q6 {left: 75.14%;}
+#q-graph #q7 {left: 88%;}
+
+
+#q-graph .bar {
+  width: 85%;
+  border-bottom: none;
+  color: white;
+  background-color: rgba(13,110,253,0.8);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+#q-graph th{
+  top:300px;
+  font-weight: normal;
+}
+
+#ticks {
+  position: relative;
+  top: -300px;
+  width: 100%;
+  height: 270px;
+  z-index: 1;
+  margin-bottom: -250px;
+  font-size: 10px;
+}
+
+#ticks .tick {
+  position: relative;
+  border-bottom: 1px dotted #C4C4C4;
+  width: 100%;
+  height: 50px;
+}
+
+#ticks .tick p {
+  position: absolute;
+  top: 35px;
+  margin-left: 5px;
+}

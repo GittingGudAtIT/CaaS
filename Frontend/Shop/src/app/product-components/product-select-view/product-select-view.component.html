@@ -1,0 +1,60 @@
+
+<div class="border-top border-bottom p-2 mb-3">
+  <div class="row">
+    <div class="col-12">
+      <label>Search Pattern</label>
+      <div class="d-flex">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" [(ngModel)]="searchString" (keyup.enter)="applyFilter()">
+        <button class="btn btn-outline-success my-sm-0" type="submit" (click)="applyFilter()">
+          <div class="d-flex p-1">
+            <span class="material-symbols-outlined">
+              search
+            </span>
+            Search
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 d-flex align-items-center mt-3 mb-1">
+      Selected Items: {{selectedItems.size}}
+      <div class="mx-3"></div>
+      <button class="btn btn-danger" (click)="clearClick()" [disabled]="selectedItems.size === 0">
+        <div class="d-flex align-items-center">
+          <span class="material-symbols-outlined">
+            close
+          </span>
+          Clear
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div *ngIf="loading" class="d-flex justify-content-center my-5">
+  <div class="spinner-border" role="status">
+    <span class="sr-only"></span>
+  </div>
+</div>
+<div *ngIf="!loading">
+  <caas-list-navigator *ngIf="products.length > 0" [pageIdx]="pageIdx" [maxPageIdx]="maxPageIdx" (pageChangedEvent)="pageChange($event)"></caas-list-navigator>
+  <div *ngIf="products.length > 0" class="mb-3 border-top">
+    <div class="d-flex flex-row-reverse border-bottom align-items-center py-2">
+      <div class="col-1 mt-2" (click)="selectionAll()">
+          <span *ngIf="!allSelected" class="material-symbols-outlined clickable hover-gray">
+            check_box_outline_blank
+          </span>
+          <span *ngIf="allSelected" class="material-symbols-outlined clickable hover-gray">
+            disabled_by_default
+          </span>
+      </div>
+      <div class="col-11 d-flex justify-content-end mx-2">
+        {{allSelected ? 'Deselect' : 'Select'}} all
+      </div>
+    </div>
+    <caas-product-select-view-item *ngFor="let p of viewProducts()" [productSelect]="p" (checkedChangedEvent)="checkedChange($event)"></caas-product-select-view-item>
+  </div>
+  <div *ngIf="products.length === 0" class="boarder">
+    Nothing found
+  </div>
+</div>

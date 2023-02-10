@@ -1,0 +1,56 @@
+<div class="border p-2 mb-3">
+  <div class="row">
+    <div class="col-12 col-sm-5 col-md-5">
+      <div>
+        <label>Start Time</label>
+        <input [ngModel]="from | date:'yyyy-MM-ddTHH:mm'" (ngModelChange)="startChange($event)" type="datetime-local" class="form-control">
+      </div>
+      <div>
+        <label>End Time</label>
+        <input [ngModel]="to | date:'yyyy-MM-ddTHH:mm'" (ngModelChange)="endChange($event)" type="datetime-local" class="form-control" >
+      </div>
+    </div>
+    <div class="col-12 col-sm-7 col-md-7">
+      <label>Search Pattern</label>
+      <div class="d-flex">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" [(ngModel)]="searchString" (keyup.enter)="applyFilter()">
+        <button class="btn btn-outline-success my-sm-0" type="submit" (click)="applyFilter()">
+          <div class="d-flex p-1">
+            <span class="material-symbols-outlined">
+              search
+            </span>
+            Search
+          </div>
+        </button>
+      </div>
+      <div class="d-flex justify-content-end mb-2 mt-3">
+        <a class="btn btn-secondary" routerLink="/admin/discounts/new" [queryParams]="queryParams()">
+          <div class="d-flex align-items-center py-0 px-1">
+            <span class="material-symbols-outlined">
+              add
+            </span>
+            <div class="mx-1"></div>
+            Create Discount
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="loading" class="d-flex justify-content-center my-5">
+  <div class="spinner-border" role="status">
+    <span class="sr-only"></span>
+  </div>
+</div>
+<div *ngIf="!loading">
+  <caas-list-navigator *ngIf="discounts.length > 0" [pageIdx]="pageIdx" [maxPageIdx]="maxPageIdx" (pageChangedEvent)="pageChange($event)"></caas-list-navigator>
+  <div class="mb-3">
+    <div class="mb-3" *ngFor="let d of viewDiscounts" >
+      <caas-discount [discount]="d" [params]="queryParams()"></caas-discount>
+    </div>
+  </div>
+  <div *ngIf="discounts.length === 0" class="boarder">
+    Nothing found
+  </div>
+  <caas-list-navigator *ngIf="discounts.length > 0" [pageIdx]="pageIdx" [maxPageIdx]="maxPageIdx" (pageChangedEvent)="pageChange($event)"></caas-list-navigator>
+</div>

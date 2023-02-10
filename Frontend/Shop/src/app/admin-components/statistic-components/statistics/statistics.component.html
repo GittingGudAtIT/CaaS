@@ -1,0 +1,34 @@
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link nav-black clickable"
+      (click)="setPage(0)"
+      [ngClass]="{'active': pageIdx === 0, 'border-top border-start border-end': pageIdx !== 0}">
+      Sales
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link nav-black clickable"
+      (click)="setPage(1)"
+      [ngClass]="{'active': pageIdx === 1, 'border-top border-start border-end': pageIdx !== 1}">
+      Topsellers
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link nav-black clickable"
+      (click)="setPage(2)"
+      [ngClass]="{'active': pageIdx === 2, 'border-top border-start border-end': pageIdx !== 2}">
+      Average Cart Count
+    </a>
+  </li>
+</ul>
+
+<div *ngIf="pageIdx === 0">
+  <caas-sales [pageIdx]="0"></caas-sales>
+</div>
+<div *ngIf="pageIdx === 1">
+  <caas-topsellers [pageIdx]="1"></caas-topsellers>
+</div>
+<div *ngIf="pageIdx === 2">
+  <caas-average-cart-count [pageIdx]="2"></caas-average-cart-count>
+</div>
+

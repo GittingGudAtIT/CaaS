@@ -1,0 +1,99 @@
+
+
+<div class="sticky-top w-100" id="title">
+  <ul class="nav nav-pills nav-fill w-opt m-auto h-100 py-2">
+    <li class="nav-item">
+      <a routerLink="home" routerLinkActive="active" class="nav-link">
+        <span class="material-symbols-outlined">
+          home
+        </span>
+        <div class="m-1"></div>
+        Home
+      </a>
+    </li>
+    <li class="nav-item">
+      <a routerLink="products" routerLinkActive="active" class="nav-link">
+        <span class="material-symbols-outlined">
+          storefront
+        </span>
+        <div class="m-1"></div>
+        Products
+      </a>
+    </li>
+    <li class="nav-item">
+      <a routerLink="cart" routerLinkActive="active" class="nav-link">
+        <span class="material-symbols-outlined">
+          shopping_cart
+        </span>
+        <div class="m-1"></div>
+        Cart
+      </a>
+    </li>
+    <li class="nav-item">
+      <div id="admin-button" class="nav-link h-100 clickable" [ngClass]="{'active': anyAdminChildActive(), 'nav-item-gray': dropdownVisible}" (click)="dropDownClick()">
+        <span id="admin-button" class="material-symbols-outlined">
+          admin_panel_settings
+        </span>
+        <div class="m-1"></div>
+        Admin
+      </div>
+      <div class="dropdown-content border p-1" [ngStyle]="{
+            'display': dropdownVisible ? 'block' : 'none',
+            'width': windowWidth() <= 436 ? '100%' : 'calc(min(1400px, 100%) / 4)'
+          }"
+
+          (mouseleave)="hideDropdown()" >
+        <a routerLink="admin/shop" class="nav-link dropdown-item justify-content-start" [ngClass]="{'active': shopActive()}" (click)="hideDropdown()">
+          <div class="d-flex align-items-center py-1">
+            <span class="material-symbols-outlined">
+              account_balance
+            </span>
+            <div class="px-1"></div>
+            Shop
+          </div>
+        </a>
+        <a routerLink="admin/discounts" class="nav-link dropdown-item justify-content-start" [ngClass]="{'active': discountActive()}" (click)="hideDropdown()">
+          <div class="d-flex align-items-center py-1">
+            <span class="material-symbols-outlined">
+              price_change
+            </span>
+            <div class="px-1"></div>
+            Discounts
+          </div>
+        </a>
+        <a routerLink="/admin/products" class="nav-link dropdown-item justify-content-start" [ngClass]="{'active': productsActive()}" (click)="hideDropdown()">
+          <div class="d-flex align-items-center py-1">
+            <span class="material-symbols-outlined">
+              storefront
+            </span>
+            <div class="px-1"></div>
+            Manage Products
+          </div>
+        </a>
+        <a routerLink="admin/orders" class="nav-link dropdown-item justify-content-start" [ngClass]="{'active': ordersActive()}" (click)="hideDropdown()">
+          <div class="d-flex align-items-center py-1">
+            <span class="material-symbols-outlined">
+              archive
+            </span>
+            <div class="px-1"></div>
+            Orders
+          </div>
+        </a>
+        <a routerLink="admin/statistics" class="nav-link dropdown-item justify-content-start" [ngClass]="{'active': statisticsActive()}" (click)="hideDropdown()">
+          <div class="d-flex align-items-center py-1">
+            <span class="material-symbols-outlined">
+              query_stats
+            </span>
+            <div class="px-1"></div>
+            Statistics
+          </div>
+        </a>
+      </div>
+    </li>
+  </ul>
+</div>
+<div class="container-fluid w-opt p-5" id="content">
+  <router-outlet></router-outlet>
+</div>
+
+

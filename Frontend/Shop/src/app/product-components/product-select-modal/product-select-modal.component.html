@@ -1,0 +1,26 @@
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display': open? 'block': 'none'}">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{title}}</h5>
+        <button type="btn btn-secondary" class="close" (click)="onModalClose()">
+          <div class="d-flex">
+            <span class="material-symbols-outlined">
+              close
+            </span>
+          </div>
+        </button>
+      </div>
+      <div class="modal-body container-fluid">
+        <caas-product-select-view [excludedProductIds]="excludedProductIds"
+        (selectedItemsChangeEvent)="selectedItemsChanged($event)"
+        [updateEventCall]="updateContentEventCall">
+        </caas-product-select-view>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="onModalCancel()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="onModalSubmit()">OK</button>
+      </div>
+    </div>
+  </div>
+</div>

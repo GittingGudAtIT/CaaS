@@ -1,0 +1,16 @@
+
+<div class="border mb-2 d-flex align-items-center">
+  <div class="container-fluid">
+    <div class="row py-1">
+      <h3 class="col-12">{{discount.tag}}</h3>
+    </div>
+    <div class="row">
+      <div class="col-12">{{discount.description}}</div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        only until {{discount.validTo | date:'dd.MM.yyy HH:mm'}}
+      </div>
+    </div>
+  </div>
+</div>

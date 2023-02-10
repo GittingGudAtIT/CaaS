@@ -1,0 +1,16 @@
+
+<div *ngIf="productAmount.product">
+  <div class="row">
+    <div class="col-5 col-sm-4 col-md-3">ID</div>
+    <div class="col-7 col-sm-8 col-md-9">{{ productAmount.product.id }}</div>
+  </div>
+  <div class="row">
+    <div class="col-5 col-sm-4 col-md-3">Name</div>
+    <div class="col-7 col-sm-8 col-md-9">{{ productAmount.product.name }}</div>
+  </div>
+  <div class="row">
+    <div class="col-5 col-sm-4 col-md-3">Amount</div>
+    <div class="col-7 col-sm-8 col-md-9">{{ productAmount.count }} pc.</div>
+  </div>
+</div>
+
